@@ -8,13 +8,16 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace CoffeeMonitor.Web
 {
+    using CoffeeMonitor.Data.CosmosDb;
+    using CoffeeMonitor.Data.Repositories;
+
     public class Startup
     {
         private const string ClientAppRoot = "../CoffeeMonitor.ClientApp";
 
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            this.Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
@@ -29,6 +32,11 @@ namespace CoffeeMonitor.Web
             {
                 configuration.RootPath = $"{ClientAppRoot}/build";
             });
+
+            services.Configure<CosmosDbSettings>(this.Configuration.GetSection("CosmosDb"));
+            services.AddCosmosDb();
+            services.AddScoped(typeof(ICosmosRepository<>), typeof(CosmosRepository<>));
+            services.AddScoped<ICoffeeRepository, CoffeeRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
