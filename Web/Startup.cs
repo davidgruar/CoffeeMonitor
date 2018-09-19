@@ -13,7 +13,7 @@ namespace CoffeeMonitor.Web
 
     public class Startup
     {
-        private const string ClientAppRoot = "../CoffeeMonitor.ClientApp";
+        private const string ClientAppRoot = "../ClientApp";
 
         public Startup(IConfiguration configuration)
         {
