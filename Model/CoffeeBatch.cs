@@ -5,19 +5,19 @@ namespace CoffeeMonitor.Model
 
     public class CoffeeBatch : CosmosDocument
     {
-        public CoffeeBatch(DateTime brewStarted, int initialVolumeMl)
+        public CoffeeBatch(DateTime brewStarted, int initialCups)
             : base(brewStarted)
         {
             this.BrewStarted = brewStarted;
-            this.InitialVolumeMl = initialVolumeMl;
+            this.InitialCups = initialCups;
         }
 
         public DateTime BrewStarted { get; }
 
         public string BrewedBy { get; set; }
 
-        public int InitialVolumeMl { get; }
+        public int InitialCups { get; }
 
-        public int PercentDefaff { get; set; }
+        public int PercentDecaff { get; set; }
     }
 }

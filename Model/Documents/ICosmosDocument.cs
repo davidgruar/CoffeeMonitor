@@ -7,7 +7,6 @@
         [JsonProperty("id")]
         string Id { get; }
 
-        [JsonProperty("partitionKey")]
         string PartitionKey { get; }
 
         string TypeName { get; }

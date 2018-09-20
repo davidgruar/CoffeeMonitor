@@ -1,11 +1,10 @@
 import * as React from 'react';
+import { Coffee } from './Coffee';
 
 export class Home extends React.Component {
   public render() {
     return (
-      <div>
-        <h1>Hello, world!</h1>
-      </div>
+      <Coffee />
     );
   }
 }

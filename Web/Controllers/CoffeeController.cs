@@ -33,10 +33,10 @@ namespace CoffeeMonitor.Web.Controllers
         [HttpPost]
         public async Task Post(CoffeeBatchCreateModel model)
         {
-            var batch = new CoffeeBatch(model.BrewStarted, model.InitialVolumeMl)
+            var batch = new CoffeeBatch(model.BrewStarted, model.InitialCups)
             {
                 BrewedBy = model.BrewedBy,
-                PercentDefaff = model.PercentDefaff
+                PercentDecaff = model.PercentDecaff
             };
             await this.coffeeRepository.CreateItem(batch);
         }

@@ -30,7 +30,6 @@
         [JsonProperty("id")]
         public string Id { get; }
 
-        [JsonProperty("partitionKey")]
         public string PartitionKey { get; }
 
         public string TypeName => this.GetType().Name;

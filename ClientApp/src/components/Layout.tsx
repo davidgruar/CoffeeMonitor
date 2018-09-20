@@ -1,20 +1,14 @@
 import * as React from 'react';
-import { Col, Grid, Row } from 'react-bootstrap';
-import { NavMenu } from './NavMenu';
+import { Container } from 'semantic-ui-react';
 
 export class Layout extends React.Component {
   public render() {
     return (
-      <Grid fluid>
-        <Row>
-          <Col sm={3}>
-            <NavMenu />
-          </Col>
-          <Col sm={9}>
-            {this.props.children}
-          </Col>
-        </Row>
-      </Grid>
+      <Container>
+        <div className="content">
+          {this.props.children}
+        </div>
+      </Container>
     );
   }
 }

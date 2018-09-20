@@ -8,8 +8,8 @@ namespace CoffeeMonitor.Model.ViewModels
 
         public string BrewedBy { get; set; }
 
-        public int InitialVolumeMl { get; set; }
+        public int InitialCups { get; set; }
 
-        public int PercentDefaff { get; set; }
+        public int PercentDecaff { get; set; }
     }
 }

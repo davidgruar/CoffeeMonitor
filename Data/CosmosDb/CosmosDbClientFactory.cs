@@ -35,7 +35,8 @@
         {
             var database = new Database { Id = this.cosmosDbSettings.DatabaseId };
             await client.CreateDatabaseIfNotExistsAsync(database);
-            var collection = new DocumentCollection { Id = this.cosmosDbSettings.CollectionId, PartitionKey = new PartitionKeyDefinition() {}};
+            var partitionKey = new PartitionKeyDefinition() { Paths = { "/PartitionKey" } };
+            var collection = new DocumentCollection { Id = this.cosmosDbSettings.CollectionId, PartitionKey = partitionKey };
             await client.CreateDocumentCollectionIfNotExistsAsync(UriFactory.CreateDatabaseUri(database.Id), collection);
         }
     }
