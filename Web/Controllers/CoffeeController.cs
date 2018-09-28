@@ -48,7 +48,6 @@ namespace CoffeeMonitor.Web.Controllers
             if (currentBatch == null)
             {
                 return this.Conflict("There is no current batch to pour from.");
-                throw new InvalidOperationException("No batch to pour from.");
             }
 
             currentBatch.Pourings.Add(pouring);
