@@ -47,7 +47,6 @@ namespace CoffeeMonitor.Web.Controllers
             var currentBatch = this.coffeeRepository.GetAllForDate(DateTime.Today).LastOrDefault();
             if (currentBatch == null)
             {
-                // TODO think about the right status code
                 return this.Conflict("There is no current batch to pour from.");
                 throw new InvalidOperationException("No batch to pour from.");
             }
