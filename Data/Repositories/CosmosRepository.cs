@@ -20,6 +20,8 @@
 
         Task CreateItem(T item);
 
+        Task UpdateItem(T item);
+
         List<T> GetAll(string partitionKey);
     }
 
@@ -28,6 +30,8 @@
     {
         private readonly IDocumentClient client;
 
+        private readonly CosmosDbSettings settings;
+
         private readonly Uri collectionUri;
 
         private static readonly string TypeName = typeof(T).Name;
@@ -35,8 +39,8 @@
         public CosmosRepository(IDocumentClient client, IOptions<CosmosDbSettings> options)
         {
             this.client = client;
-            var settings = options.Value;
-            this.collectionUri = UriFactory.CreateDocumentCollectionUri(settings.DatabaseId, settings.CollectionId);
+            this.settings = options.Value;
+            this.collectionUri = UriFactory.CreateDocumentCollectionUri(this.settings.DatabaseId, this.settings.CollectionId);
         }
 
         public List<T> GetAll(string partitionKey)
@@ -51,7 +55,7 @@
             return query.ToList().SingleOrDefault();
         }
 
-        public async Task CreateItem(T item)
+        public Task CreateItem(T item)
         {
             if (string.IsNullOrEmpty(item.Id))
             {
@@ -61,7 +65,13 @@
             {
                 throw new Exception("Item must have a partition key");
             }
-            await this.client.CreateDocumentAsync(this.collectionUri, item);
+            return this.client.CreateDocumentAsync(this.collectionUri, item);
+        }
+
+        public async Task UpdateItem(T item)
+        {
+            var uri = UriFactory.CreateDocumentUri(this.settings.DatabaseId, this.settings.CollectionId, item.Id);
+            var response = await this.client.ReplaceDocumentAsync(uri, item);
         }
 
         private IQueryable<T> CreateQuery()

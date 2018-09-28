@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/CoffeeMonitor.Web/CoffeeMonitor.Web.csproj"
+                "${workspaceFolder}/Web/CoffeeMonitor.Web.csproj"
             ],
             "problemMatcher": "$msCompile"
         }

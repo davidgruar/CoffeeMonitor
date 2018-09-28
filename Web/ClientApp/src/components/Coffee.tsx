@@ -1,12 +1,14 @@
 import * as React from 'react';
-import { Segment } from "semantic-ui-react";
+import { Segment, Button, Modal } from "semantic-ui-react";
 import * as coffeeApi from "../coffeeApi";
-import { CoffeeBatch } from '../model';
+import { CoffeeBatch, Pouring } from '../model';
 import { CoffeeBatchForm } from './CoffeeBatchForm';
 import { CoffeeStatus } from './CoffeeStatus';
+import { PourCoffeeForm } from "./PourCoffeeForm";
 
 interface CoffeeState {
     currentBatch: CoffeeBatch | undefined;
+    modalOpen: boolean;
 }
 
 export class Coffee extends React.Component<{}, CoffeeState> {
@@ -15,7 +17,8 @@ export class Coffee extends React.Component<{}, CoffeeState> {
     constructor(props: any) {
         super(props);
         this.state = {
-            currentBatch: undefined
+            currentBatch: undefined,
+            modalOpen: false
         };
     }
 
@@ -34,11 +37,22 @@ export class Coffee extends React.Component<{}, CoffeeState> {
                 <Segment>
                     <h2>Coffee pot status</h2>
                     <CoffeeStatus batch={this.state.currentBatch} />
+                    <div>
+                        <Modal open={this.state.modalOpen} trigger={<Button>Brew some coffee</Button>} onOpen={this.openModal} onClose={this.closeModal}>
+                            <Modal.Header>Brew some coffee</Modal.Header>
+                            <Modal.Content>
+                                <CoffeeBatchForm onSubmit={this.submitBatch} />
+                            </Modal.Content>
+                        </Modal>
+                    </div>
                 </Segment>
-                <Segment>
-                    <h2>Brew some coffee</h2>
-                    <CoffeeBatchForm onSubmit={this.submitBatch} />
-                </Segment>
+                {this.state.currentBatch && this.state.currentBatch.currentCups! > 0 &&
+                    <Segment>
+                        <h2>Pour a cup</h2>
+                        <PourCoffeeForm
+                            currentCups={this.state.currentBatch.currentCups || 0}
+                            onSubmit={this.pour} />
+                    </Segment>}
             </div>
         );
     }
@@ -49,8 +63,18 @@ export class Coffee extends React.Component<{}, CoffeeState> {
         this.setState({ currentBatch });
     }
 
+    private openModal = () => this.setState({ modalOpen: true });
+    
+    private closeModal = () => this.setState({ modalOpen: false });
+
     private submitBatch = async (batch: CoffeeBatch) => {
+        this.closeModal();
         await coffeeApi.createBatch(batch);
+        await this.loadCurrentBatch();
+    }
+
+    private pour = async (pouring: Pouring) => {
+        await coffeeApi.pour(pouring);
         await this.loadCurrentBatch();
     }
 }

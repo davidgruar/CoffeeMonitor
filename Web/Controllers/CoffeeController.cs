@@ -40,5 +40,21 @@ namespace CoffeeMonitor.Web.Controllers
             };
             await this.coffeeRepository.CreateItem(batch);
         }
+
+        [HttpPost("pourings")]
+        public async Task<IActionResult> Pour(Pouring pouring)
+        {
+            var currentBatch = this.coffeeRepository.GetAllForDate(DateTime.Today).LastOrDefault();
+            if (currentBatch == null)
+            {
+                // TODO think about the right status code
+                return this.Conflict("There is no current batch to pour from.");
+                throw new InvalidOperationException("No batch to pour from.");
+            }
+
+            currentBatch.Pourings.Add(pouring);
+            await this.coffeeRepository.UpdateItem(currentBatch);
+            return this.Ok();
+        }
     }
 }

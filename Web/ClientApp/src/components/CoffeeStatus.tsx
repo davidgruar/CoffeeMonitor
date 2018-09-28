@@ -16,6 +16,7 @@ const CoffeeStatus: React.SFC<CoffeeStatusProps> = ({ batch }) => {
                 <li>Brew started: <span title={batch.brewStarted.format("HH:mm")}>{batch.brewStarted.fromNow()}</span></li>
                 <li>Brewed by: {batch.brewedBy}</li>
                 <li>Initial cups: {batch.initialCups}</li>
+                <li>Current cups: {batch.currentCups}</li>
                 <li>Decaff: {batch.percentDecaff}%</li>
             </ul>
         </div>

@@ -5,4 +5,12 @@ export interface CoffeeBatch {
     brewedBy: string;
     initialCups: number;
     percentDecaff: number;
+    pourings?: Pouring[];
+    currentCups?: number;
+}
+
+export interface Pouring {
+    when: Moment;
+    who: string;
+    cups: number;
 }
