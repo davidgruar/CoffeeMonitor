@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Segment, Button, Modal } from "semantic-ui-react";
+import { Button, Modal, Segment } from "semantic-ui-react";
 import * as coffeeApi from "../coffeeApi";
 import { CoffeeBatch, Pouring } from '../model';
 import { CoffeeBatchForm } from './CoffeeBatchForm';
