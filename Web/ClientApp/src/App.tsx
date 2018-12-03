@@ -7,7 +7,7 @@ export default class App extends React.Component {
   public render() {
     return (
       <Layout>
-        <Route exact path='/' component={Home} />
+        <Route path='/' component={Home} />
       </Layout>
     );
   }
