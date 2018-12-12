@@ -3,11 +3,16 @@ matrix:
     - name: "Client"
       language: node_js
       before_script: cd Web/ClientApp
-    - name: "Server"
+      script:
+        - npm install
+        - npm run build
+        - npm test
+
+      - name: "Server"
       language: csharp
       solution: CoffeeMonitor.sln
       mono: none
-      dotnet: 2.1.1
+      dotnet: 2.1.500
       script:
         - dotnet restore
         - dotnet build
