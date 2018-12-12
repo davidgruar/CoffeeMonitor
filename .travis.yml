@@ -1,0 +1,9 @@
+language: node_js
+before_script: cd Web/ClientApp
+
+language: csharp
+solution: CoffeeMonitor.sln
+mono: none
+dotnet: 2.1.1
+script:
+  - dotnet restore
