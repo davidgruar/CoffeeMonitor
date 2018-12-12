@@ -4,8 +4,7 @@ solution: CoffeeMonitor.sln
 dotnet: 2.1.500
 install:
   - dotnet restore
-  - npm install
 script:
   - dotnet build
-  - npm run build
+  - cd Web/ClientApp
   - npm run test
