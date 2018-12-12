@@ -1,18 +1,11 @@
-matrix:
-  include:
-    - name: "Client"
-      language: node_js
-      before_script: cd Web/ClientApp
-      script:
-        - npm install
-        - npm run build
-        - npm test
-
-      - name: "Server"
-      language: csharp
-      solution: CoffeeMonitor.sln
-      mono: none
-      dotnet: 2.1.500
-      script:
-        - dotnet restore
-        - dotnet build
+language: csharp
+mono: none
+solution: CoffeeMonitor.sln
+dotnet: 2.1.500
+install:
+  - dotnet restore
+  - npm install
+script:
+  - dotnet build
+  - npm run build
+  - npm run test
