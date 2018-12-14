@@ -1,4 +1,4 @@
-import * as pluralize from "pluralize";
+import pluralize from "pluralize";
 import * as React from "react";
 import { Progress } from "semantic-ui-react";
 import { CoffeeBatch } from "../model";
