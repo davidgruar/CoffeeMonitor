@@ -6,23 +6,24 @@ open System.Threading
 open FSharp.Control.Tasks.V2
 open Microsoft.Azure.WebJobs
 open Microsoft.Extensions.Logging
+open NodaTime
 open CoffeeMonitor.Model
 
 module CoffeeBatchWorkflow =
     let BrewRateSecondsPerCup = 5.0 // 55
 
     [<FunctionName("CoffeeBatchWorkflow")>]
-    let runOrchestrator ([<OrchestrationTrigger>] context: DurableOrchestrationContext, log: ILogger) =
+    let runOrchestrator ([<OrchestrationTrigger>] context: DurableOrchestrationContextBase, log: ILogger) =
         task {
             let batch = context.GetInput<CoffeeBatch>()
 
-            // TODO Use NodaTime!!
-            let brewTime = batch.CurrentCups * BrewRateSecondsPerCup |> TimeSpan.FromSeconds
-            let finishedTime = context.CurrentUtcDateTime.Add brewTime
+            let brewTime = batch.CurrentCups * BrewRateSecondsPerCup |> Duration.FromSeconds
+            let currentTime = context.CurrentUtcDateTime |> Instant.FromDateTimeUtc
+            let finishedTime = currentTime + brewTime
             log.LogInformation("{InstanceId}: Coffee will be ready at {FinishedTime}", context.InstanceId, finishedTime);
 
             use cancelCoffeeReady = new CancellationTokenSource()
-            do! context.CreateTimer(finishedTime, cancelCoffeeReady.Token)
+            do! context.CreateTimer(finishedTime.ToDateTimeUtc(), cancelCoffeeReady.Token)
 
             log.LogInformation("{InstanceId}: Coffee ready!", context.InstanceId);
             // Notify subscribers
