@@ -10,6 +10,7 @@ namespace CoffeeMonitor.Web
 {
     using CoffeeMonitor.Data.CosmosDb;
     using CoffeeMonitor.Data.Repositories;
+    using CoffeeMonitor.Model.Messaging;
 
     public class Startup
     {
@@ -34,9 +35,15 @@ namespace CoffeeMonitor.Web
             });
 
             services.Configure<CosmosDbSettings>(this.Configuration.GetSection("CosmosDb"));
+            services.Configure<MessagingSettings>(this.Configuration.GetSection("Messaging"));
+
             services.AddCosmosDb();
+            services.AddHttpClient();
+
+
             services.AddScoped(typeof(ICosmosRepository<>), typeof(CosmosRepository<>));
             services.AddScoped<ICoffeeRepository, CoffeeRepository>();
+            services.AddScoped<ICoffeeBatchWorkflowClient, CoffeeBatchWorkflowClient>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

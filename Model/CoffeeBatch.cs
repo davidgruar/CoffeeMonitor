@@ -4,6 +4,7 @@ namespace CoffeeMonitor.Model
     using System.Collections.Generic;
     using System.Linq;
     using CoffeeMonitor.Model.Documents;
+    using CoffeeMonitor.Model.Messaging;
 
     using Newtonsoft.Json;
 
@@ -32,6 +33,8 @@ namespace CoffeeMonitor.Model
         public ICollection<Pouring> Pourings { get; } = new List<Pouring>();
 
         public double CurrentCups => this.GetCurrentCups();
+
+        public DurableFunctionInstanceData WorkflowData { get; set; }
 
         private double GetCurrentCups()
         {
