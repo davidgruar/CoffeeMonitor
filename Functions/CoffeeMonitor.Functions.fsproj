@@ -3,6 +3,9 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <AzureFunctionsVersion>v2</AzureFunctionsVersion>
+    <!-- NU1608: version outside dependency constraint -->
+    <!-- NU1107: version conflict -->
+    <NoWarn>NU1608,NU1197</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

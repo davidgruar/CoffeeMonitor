@@ -13,20 +13,22 @@ module CoffeeBatchWorkflow =
     let BrewRateSecondsPerCup = 5.0 // 55
 
     [<FunctionName("CoffeeBatchWorkflow")>]
-    let runOrchestrator ([<OrchestrationTrigger>] context: DurableOrchestrationContextBase, log: ILogger) =
+    let runOrchestrator
+        ([<OrchestrationTrigger>] context: DurableOrchestrationContextBase)
+        (log: ILogger) =
         task {
             let batch = context.GetInput<CoffeeBatch>()
 
             let brewTime = batch.CurrentCups * BrewRateSecondsPerCup |> Duration.FromSeconds
             let currentTime = context.CurrentUtcDateTime |> Instant.FromDateTimeUtc
             let finishedTime = currentTime + brewTime
-            log.LogInformation("{InstanceId}: Coffee will be ready at {FinishedTime}", context.InstanceId, finishedTime);
+            do! context.CallActivityAsync("NotifyBrewStarted", (batch, finishedTime))
 
             use cancelCoffeeReady = new CancellationTokenSource()
             do! context.CreateTimer(finishedTime.ToDateTimeUtc(), cancelCoffeeReady.Token)
 
             log.LogInformation("{InstanceId}: Coffee ready!", context.InstanceId);
-            // Notify subscribers
+            do! context.CallActivityAsync("NotifyCoffeeReady", batch)
         }
 
     [<FunctionName("CoffeeBatchWorkflow_Start")>]
@@ -41,4 +43,22 @@ module CoffeeBatchWorkflow =
             log.LogInformation ("Started orchestration with {InstanceId}", instanceId)
 
             return client.CreateCheckStatusResponse (req, instanceId)
+        }
+
+    [<FunctionName("NotifyBrewStarted")>]
+    let notifyBrewStarted
+        ([<ActivityTrigger>] context: DurableActivityContext)
+        (log: ILogger) =
+        task {
+            let (batch, finishedTime) = context.GetInput<(CoffeeBatch * Instant)>()
+            log.LogInformation("{InstanceId}: Coffee will be ready at {FinishedTime}", context.InstanceId, finishedTime);
+        }
+
+    [<FunctionName("NotifyCoffeeReady")>]
+    let notifyCoffeeReady
+        ([<ActivityTrigger>] context: DurableActivityContext)
+        (log: ILogger) =
+        task {
+            let batch = context.GetInput<CoffeeBatch>()
+            log.LogInformation("{InstanceId}: Coffee ready!", context.InstanceId);
         }
