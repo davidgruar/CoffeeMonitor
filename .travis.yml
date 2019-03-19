@@ -6,5 +6,6 @@ install:
   - dotnet restore
 script:
   - dotnet build
+  - dotnet test
   - cd Web/ClientApp
   - npm run test
