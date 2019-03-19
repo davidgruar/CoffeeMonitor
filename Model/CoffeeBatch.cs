@@ -36,6 +36,18 @@ namespace CoffeeMonitor.Model
 
         public DurableFunctionInstanceData WorkflowData { get; set; }
 
+        public string GetCaffDescription()
+        {
+            switch (this.PercentDecaff)
+            {
+                case 0:
+                    return "caff";
+                case 100:
+                    return "decaff";
+                default:
+                    return $"{this.PercentDecaff}% decaff";
+            }
+        }
         private double GetCurrentCups()
         {
             var poured = this.Pourings.Sum(p => p.Cups);

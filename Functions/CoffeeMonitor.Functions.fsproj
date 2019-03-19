@@ -8,7 +8,13 @@
     <NoWarn>NU1608,NU1197</NoWarn>
   </PropertyGroup>
 
+    <PropertyGroup Condition="'$(NCrunch)'=='1'">
+        <ExcludeRestorePackageImports>true</ExcludeRestorePackageImports>
+        <TargetFramework>netcoreapp2.0</TargetFramework>
+    </PropertyGroup>
+
   <ItemGroup>
+    <Compile Include="CoffeeBatch.fs" />
     <Compile Include="CoffeeBatchWorkflow.fs" />
   </ItemGroup>
 
@@ -20,6 +26,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Model\CoffeeMonitor.Model.csproj" />
+    <ProjectReference Include="..\Notifications\CoffeeMonitor.Notifications.fsproj" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="host.json">

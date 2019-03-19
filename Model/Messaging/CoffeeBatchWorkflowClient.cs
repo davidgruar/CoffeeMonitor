@@ -33,7 +33,7 @@
             var client = this.httpClientFactory.CreateClient();
             var response = await client.PostAsync(uri, content);
             response.EnsureSuccessStatusCode();
-            var json = await response.Content.ReadAsStringAsync(); // .ReadAsAsync<T>() ??
+            var json = await response.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<DurableFunctionInstanceData>(json);
             return result;
         }
