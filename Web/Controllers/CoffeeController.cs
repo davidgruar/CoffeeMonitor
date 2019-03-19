@@ -11,6 +11,7 @@ namespace CoffeeMonitor.Web.Controllers
     using CoffeeMonitor.Model.ViewModels;
     using CoffeeMonitor.Model;
     using CoffeeMonitor.Model.Extensions;
+    using CoffeeMonitor.Model.Messaging;
 
     [Route("api/[controller]")]
     [ApiController]
@@ -18,9 +19,12 @@ namespace CoffeeMonitor.Web.Controllers
     {
         private readonly ICoffeeRepository coffeeRepository;
 
-        public CoffeeController(ICoffeeRepository coffeeRepository)
+        private readonly ICoffeeBatchWorkflowClient workflowClient;
+
+        public CoffeeController(ICoffeeRepository coffeeRepository, ICoffeeBatchWorkflowClient workflowClient)
         {
             this.coffeeRepository = coffeeRepository;
+            this.workflowClient = workflowClient;
         }
 
         [HttpGet]
@@ -38,6 +42,12 @@ namespace CoffeeMonitor.Web.Controllers
                 BrewedBy = model.BrewedBy,
                 PercentDecaff = model.PercentDecaff
             };
+
+            if (this.workflowClient.IsConfigured)
+            {
+                batch.WorkflowData = await this.workflowClient.Start(batch);
+            }
+
             await this.coffeeRepository.CreateItem(batch);
         }
 
