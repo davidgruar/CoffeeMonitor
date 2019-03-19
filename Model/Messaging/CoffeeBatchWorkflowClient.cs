@@ -11,6 +11,8 @@
 
     public interface ICoffeeBatchWorkflowClient
     {
+        bool IsConfigured { get; }
+
         Task<DurableFunctionInstanceData> Start(CoffeeBatch batch);
     }
 
@@ -26,8 +28,15 @@
             this.messagingSettings = messagingOptions.Value;
         }
 
+        public bool IsConfigured => !string.IsNullOrWhiteSpace(this.messagingSettings.FunctionsEndpoint);
+
         public async Task<DurableFunctionInstanceData> Start(CoffeeBatch batch)
         {
+            if (!this.IsConfigured)
+            {
+                throw new InvalidOperationException("Workflow endpoint is not configured");
+            }
+
             var uri = this.GetEndpoint("start");
             var content = new StringContent(JsonConvert.SerializeObject(batch), Encoding.UTF8, "application/json");
             var client = this.httpClientFactory.CreateClient();

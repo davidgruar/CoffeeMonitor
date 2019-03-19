@@ -43,7 +43,10 @@ namespace CoffeeMonitor.Web.Controllers
                 PercentDecaff = model.PercentDecaff
             };
 
-            batch.WorkflowData = await this.workflowClient.Start(batch);
+            if (this.workflowClient.IsConfigured)
+            {
+                batch.WorkflowData = await this.workflowClient.Start(batch);
+            }
 
             await this.coffeeRepository.CreateItem(batch);
         }
