@@ -32,7 +32,8 @@
     <Content Include="host.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="local.settings.json">
+    <!-- Matching local.settings.json by wildcard so it doesn't break the build in CI because the file doesn't exist -->
+    <None Include="*.settings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <CopyToPublishDirectory>Never</CopyToPublishDirectory>
     </None>
