@@ -17,7 +17,26 @@ steps:
   displayName: dotnet build
 
 - script: dotnet test --configuration $(buildConfiguration)
-  displayName: dotnet build
+  displayName: dotnet test
+
+- script: npm install
+  displayName: npm install
+  workingDirectory: Web/ClientApp
+
+- script: npm run build
+  displayName: npm build
+  workingDirectory: Web/ClientApp
 
 - script: npm test
+  displayName: npm test
   workingDirectory: Web/ClientApp
+
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet publish'
+  inputs:
+    command: publish
+    publishWebProjects: false
+    projects: |
+     Web/CoffeeMonitor.Web.csproj
+     Functions/CoffeeMonitor.Functions.fsproj
+    arguments: '--configuration $(BuildConfiguration)  --output $(build.artifactstagingdirectory)'
