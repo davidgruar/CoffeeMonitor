@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <!-- NU1608: version outside dependency constraint -->
+    <!-- NU1107: version conflict -->
+    <NoWarn>NU1608,NU1197</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="CoffeeBatchWorkflowTests.fs" />
+    <Compile Include="Program.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FsUnit" Version="3.4.0" />
+    <PackageReference Include="FsUnit.xUnit" Version="3.4.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
+    <PackageReference Include="NSubstitute" Version="4.0.0" />
+    <PackageReference Include="xunit" Version="2.4.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Functions\CoffeeMonitor.Functions.fsproj" />
+  </ItemGroup>
+
+</Project>

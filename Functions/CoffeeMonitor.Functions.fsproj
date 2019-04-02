@@ -1,0 +1,42 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AzureFunctionsVersion>v2</AzureFunctionsVersion>
+    <!-- NU1608: version outside dependency constraint -->
+    <!-- NU1107: version conflict -->
+    <NoWarn>NU1608,NU1197</NoWarn>
+  </PropertyGroup>
+
+    <PropertyGroup Condition="'$(NCrunch)'=='1'">
+        <ExcludeRestorePackageImports>true</ExcludeRestorePackageImports>
+        <TargetFramework>netcoreapp2.0</TargetFramework>
+    </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="CoffeeBatch.fs" />
+    <Compile Include="CoffeeBatchWorkflow.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.DurableTask" Version="1.6.2" />
+    <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="1.0.24" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+    <PackageReference Include="TaskBuilder.fs" Version="2.1.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Model\CoffeeMonitor.Model.csproj" />
+    <ProjectReference Include="..\Notifications\CoffeeMonitor.Notifications.fsproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="host.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <!-- Matching local.settings.json by wildcard so it doesn't break the build in CI because the file doesn't exist -->
+    <None Include="*.settings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>
