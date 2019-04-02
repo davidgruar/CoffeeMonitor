@@ -39,6 +39,7 @@
 
             var uri = this.GetEndpoint("start");
             var content = new StringContent(JsonConvert.SerializeObject(batch), Encoding.UTF8, "application/json");
+            content.Headers.Add("X-Functions-Key", this.messagingSettings.FunctionsAuthToken);
             var client = this.httpClientFactory.CreateClient();
             var response = await client.PostAsync(uri, content);
             response.EnsureSuccessStatusCode();
