@@ -11,6 +11,7 @@ open System
 open NSubstitute
 open System.Threading
 open System.Threading.Tasks
+open NodaTime
 
 type TaskCompletionSource() =
     inherit TaskCompletionSource<int>()
@@ -29,7 +30,7 @@ let createContext<'T> input =
 let ``Should notify that the brew has started with correct finish time`` () =
     task {
         let brewTime = DateTime(2019, 3, 10, 13, 0, 0, DateTimeKind.Utc)
-        let batch = CoffeeBatch(brewTime, 12)
+        let batch = CoffeeBatch(brewTime |> Instant.FromDateTimeUtc, 12)
         let context = createContext batch
 
         do! runOrchestrator context logger
@@ -41,7 +42,7 @@ let ``Should notify that the brew has started with correct finish time`` () =
 let ``Should notify that coffee is ready when the timer expires`` () =
     task {
         let brewTime = DateTime(2019, 3, 10, 13, 0, 0, DateTimeKind.Utc)
-        let batch = CoffeeBatch(brewTime, 12)
+        let batch = CoffeeBatch(brewTime |> Instant.FromDateTimeUtc, 12)
         let context = createContext batch
         let tcs = TaskCompletionSource()
         context.CreateTimer(brewTime.AddMinutes 11.0, Arg.Any<CancellationToken>()) |> returns (tcs.Task :> Task)

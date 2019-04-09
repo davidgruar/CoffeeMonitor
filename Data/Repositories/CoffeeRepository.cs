@@ -8,9 +8,11 @@ namespace CoffeeMonitor.Data.Repositories
     using Microsoft.Azure.Documents;
     using Microsoft.Extensions.Options;
 
+    using NodaTime;
+
     public interface ICoffeeRepository : ICosmosRepository<CoffeeBatch>
     {
-        List<CoffeeBatch> GetAllForDate(DateTime date);
+        List<CoffeeBatch> GetAllForDate(LocalDate date);
     }
 
     public class CoffeeRepository : CosmosRepository<CoffeeBatch>, ICoffeeRepository
@@ -19,6 +21,6 @@ namespace CoffeeMonitor.Data.Repositories
         {            
         }
 
-        public List<CoffeeBatch> GetAllForDate(DateTime date) => this.GetAll(date.ToPartitionKey());
+        public List<CoffeeBatch> GetAllForDate(LocalDate date) => this.GetAll(date.ToPartitionKey());
     }
 }

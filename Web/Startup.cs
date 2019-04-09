@@ -11,6 +11,8 @@ namespace CoffeeMonitor.Web
     using CoffeeMonitor.Data.CosmosDb;
     using CoffeeMonitor.Data.Repositories;
     using CoffeeMonitor.Model.Messaging;
+    using NodaTime;
+    using NodaTime.Serialization.JsonNet;
 
     public class Startup
     {
@@ -26,7 +28,9 @@ namespace CoffeeMonitor.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                .AddJsonOptions(opt => opt.SerializerSettings.ConfigureForNodaTime(DateTimeZoneProviders.Tzdb));
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -39,7 +43,6 @@ namespace CoffeeMonitor.Web
 
             services.AddCosmosDb();
             services.AddHttpClient();
-
 
             services.AddScoped(typeof(ICosmosRepository<>), typeof(CosmosRepository<>));
             services.AddScoped<ICoffeeRepository, CoffeeRepository>();

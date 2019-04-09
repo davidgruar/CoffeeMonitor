@@ -1,12 +1,12 @@
 namespace CoffeeMonitor.Model
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using CoffeeMonitor.Model.Documents;
     using CoffeeMonitor.Model.Messaging;
 
     using Newtonsoft.Json;
+    using NodaTime;
 
     public class CoffeeBatch : CosmosDocument
     {
@@ -15,14 +15,14 @@ namespace CoffeeMonitor.Model
         {
         }
 
-        public CoffeeBatch(DateTime brewStarted, int initialCups)
+        public CoffeeBatch(Instant brewStarted, int initialCups)
             : base(brewStarted)
         {
             this.BrewStarted = brewStarted;
             this.InitialCups = initialCups;
         }
 
-        public DateTime BrewStarted { get; set; }
+        public Instant BrewStarted { get; set; }
 
         public string BrewedBy { get; set; }
 
