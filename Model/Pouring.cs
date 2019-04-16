@@ -5,7 +5,7 @@ namespace CoffeeMonitor.Model
 {
     public class Pouring
     {
-        public Instant When { get; set; }
+        public Instant When { get; set; } = Instant.FromDateTimeUtc(DateTime.UtcNow);
 
         public string Who { get; set; }
 

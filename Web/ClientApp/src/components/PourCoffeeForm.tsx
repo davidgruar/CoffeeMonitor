@@ -1,13 +1,12 @@
-import moment from "moment";
 import * as React from "react";
 import { Form, InputOnChangeData } from "semantic-ui-react";
-import { Pouring } from "../model";
+import { PouringCreateModel } from "../model";
 
 const userNameKey = "coffeeMonitor.userName";
 
 interface PourCoffeeFormProps {
     currentCups: number;
-    onSubmit: (pouring: Pouring) => Promise<void>;
+    onSubmit: (pouring: PouringCreateModel) => Promise<void>;
 }
 
 interface PourCoffeeFormState {
@@ -46,9 +45,8 @@ class PourCoffeeForm extends React.Component<PourCoffeeFormProps, PourCoffeeForm
     }
 
     private onSubmit = () => {
-        const pouring: Pouring = {
+        const pouring: PouringCreateModel = {
             cups: this.state.cups,
-            when: moment(),
             who: this.state.who
         }
         this.props.onSubmit(pouring);
