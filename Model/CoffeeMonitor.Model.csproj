@@ -9,6 +9,7 @@
     <PackageReference Include="Microsoft.Extensions.Http" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="2.1.1" />
     <PackageReference Include="NodaTime" Version="2.4.5" />
+    <PackageReference Include="NodaTime.Serialization.JsonNet" Version="2.1.0" />
   </ItemGroup>
 
 </Project>

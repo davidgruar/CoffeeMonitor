@@ -6,6 +6,7 @@
     using Microsoft.Azure.Documents;
     using Microsoft.Azure.Documents.Client;
     using Microsoft.Extensions.Options;
+    using Newtonsoft.Json;
 
     public class CosmosDbClientFactory
     {
@@ -26,7 +27,7 @@
                 policy.ConnectionProtocol = Protocol.Tcp;
             }
 
-            var client = new DocumentClient(uri, this.cosmosDbSettings.Key, policy);
+            var client = new DocumentClient(uri, this.cosmosDbSettings.Key, JsonConvert.DefaultSettings(), policy);
             this.Initialize(client).Wait();
             return client;
         }

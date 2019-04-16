@@ -1,10 +1,11 @@
+using NodaTime;
 using System;
 
 namespace CoffeeMonitor.Model.ViewModels
 {
     public class CoffeeBatchCreateModel
     {
-        public DateTime BrewStarted { get; set; }
+        public Instant BrewStarted { get; set; }
 
         public string BrewedBy { get; set; }
 

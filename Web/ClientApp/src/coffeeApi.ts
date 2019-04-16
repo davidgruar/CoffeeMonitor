@@ -1,6 +1,6 @@
 import axios from "axios";
 import moment from "moment";
-import { CoffeeBatch, Pouring } from "./model";
+import { CoffeeBatch, PouringCreateModel } from "./model";
 
 const baseUrl = "/api/coffee";
 
@@ -21,6 +21,6 @@ export async function getBatches(): Promise<CoffeeBatch[]> {
     }));
 }
 
-export function pour(pouring: Pouring) {
+export function pour(pouring: PouringCreateModel) {
     return axios.post(`${baseUrl}/pourings`, pouring);
 }

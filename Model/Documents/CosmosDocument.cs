@@ -3,6 +3,7 @@
     using System;
     using CoffeeMonitor.Model.Extensions;
     using Newtonsoft.Json;
+    using NodaTime;
 
     public abstract class CosmosDocument : ICosmosDocument
     {
@@ -11,7 +12,7 @@
         {
         }
 
-        protected CosmosDocument(DateTime partitionDate)
+        protected CosmosDocument(Instant partitionDate)
             : this(Guid.NewGuid().ToString(), partitionDate)
         {
         }
@@ -22,7 +23,7 @@
             this.PartitionKey = partitionKey;
         }
 
-        protected CosmosDocument(string id, DateTime partitionDate)
+        protected CosmosDocument(string id, Instant partitionDate)
             : this(id, partitionDate.ToPartitionKey())
         {
         }

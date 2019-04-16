@@ -24,8 +24,7 @@ let runOrchestrator
         let batch = context.GetInput<CoffeeBatch>()
 
         let brewTime = CoffeeBatch.brewTime batch.CurrentCups
-        let currentTime = batch.BrewStarted |> Instant.FromDateTimeUtc
-        let finishedTime = currentTime + brewTime
+        let finishedTime = batch.BrewStarted + brewTime
         let localFinishedTime = finishedTime.InZone(ukTimeZone)
 
         do! context.CallActivityAsync("NotifyBrewStarted", { Batch = batch; FinishedTime = localFinishedTime.ToString("HH:mm", gbCulture) })

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Button, Modal, Segment } from "semantic-ui-react";
 import * as coffeeApi from "../coffeeApi";
-import { CoffeeBatch, Pouring } from '../model';
+import { CoffeeBatch, PouringCreateModel } from '../model';
 import { CoffeeBatchForm } from './CoffeeBatchForm';
 import { CoffeeStatus } from './CoffeeStatus';
 import { PourCoffeeForm } from "./PourCoffeeForm";
@@ -73,7 +73,7 @@ export class Coffee extends React.Component<{}, CoffeeState> {
         await this.loadCurrentBatch();
     }
 
-    private pour = async (pouring: Pouring) => {
+    private pour = async (pouring: PouringCreateModel) => {
         await coffeeApi.pour(pouring);
         await this.loadCurrentBatch();
     }

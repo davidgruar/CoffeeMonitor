@@ -14,3 +14,9 @@ export interface Pouring {
     who: string;
     cups: number;
 }
+
+export interface PouringCreateModel {
+    when?: Moment;
+    who: string;
+    cups: number;
+}
