@@ -4,6 +4,7 @@ namespace CoffeeMonitor.Model
     using System.Linq;
     using CoffeeMonitor.Model.Documents;
     using CoffeeMonitor.Model.Messaging;
+    using CoffeeMonitor.Model.Serialization;
 
     using Newtonsoft.Json;
     using NodaTime;
@@ -22,6 +23,7 @@ namespace CoffeeMonitor.Model
             this.InitialCups = initialCups;
         }
 
+        [JsonConverter(typeof(InstantConverter))]
         public Instant BrewStarted { get; set; }
 
         public string BrewedBy { get; set; }
